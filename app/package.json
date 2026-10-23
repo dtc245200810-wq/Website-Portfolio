@@ -1,0 +1,36 @@
+{
+  "name": "portfolio-system",
+  "version": "1.0.0",
+  "description": "Website Portfolio Ca Nhan co Trang Admin Quan Ly Noi Dung - De 13",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "test": "node tests/unit.test.js"
+  },
+  "keywords": [
+    "portfolio",
+    "express",
+    "mysql",
+    "docker",
+    "nginx",
+    "prometheus",
+    "grafana",
+    "loki"
+  ],
+  "author": "To Vu Dat (DTC245200810 - CNTT K23I)",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-mysql-session": "^3.0.3",
+    "express-rate-limit": "^7.5.0",
+    "express-session": "^1.18.1",
+    "helmet": "^8.0.0",
+    "mysql2": "^3.12.0",
+    "prom-client": "^15.1.3",
+    "winston": "^3.17.0"
+  }
+}

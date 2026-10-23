@@ -1,0 +1,70 @@
+<%- include('../partials/header') %>
+
+<section class="section project-detail-section">
+    <div class="section-container">
+        <div class="breadcrumb">
+            <a href="/"><i class="fas fa-home"></i> Trang chủ</a> &gt; 
+            <a href="/#projects">Dự án</a> &gt; 
+            <span><%= project.title %></span>
+        </div>
+
+        <div class="project-detail-header">
+            <span class="project-category-badge"><%= project.category %></span>
+            <h1 class="project-detail-title"><%= project.title %></h1>
+            <p class="project-detail-desc"><%= project.description %></p>
+        </div>
+
+        <div class="project-detail-grid">
+            <div class="project-main-info">
+                <div class="project-banner">
+                    <img src="<%= project.image_url %>" alt="<%= project.title %>" onerror="this.src='/images/project-default.jpg'">
+                </div>
+
+                <div class="project-content-body">
+                    <h3><i class="fas fa-file-lines highlight"></i> Mô Tả Chi Tiết & Kiến Trúc</h3>
+                    <p><%= project.full_content || project.description %></p>
+
+                    <h3><i class="fas fa-cubes highlight"></i> Công Nghệ Sử Dụng</h3>
+                    <div class="project-tech-tags large">
+                        <% project.technologies.split(',').forEach(tech => { %>
+                            <span class="tech-tag"><i class="fas fa-tag"></i> <%= tech.trim() %></span>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-sidebar">
+                <div class="sidebar-card">
+                    <h3><i class="fas fa-link highlight"></i> Liên Kết & Thao Tác</h3>
+                    <% if (project.demo_url) { %>
+                        <a href="<%= project.demo_url %>" target="_blank" class="btn btn-primary btn-block mb-2">
+                            <i class="fas fa-external-link-alt"></i> Xem Bản Demo Trực Tuyến
+                        </a>
+                    <% } %>
+                    <% if (project.github_url) { %>
+                        <a href="<%= project.github_url %>" target="_blank" class="btn btn-dark btn-block mb-2">
+                            <i class="fab fa-github"></i> Xem Mã Nguồn Trên GitHub
+                        </a>
+                    <% } %>
+                    <a href="/#projects" class="btn btn-outline btn-block">
+                        <i class="fas fa-arrow-left"></i> Quay lại Danh Sách Dự Án
+                    </a>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3><i class="fas fa-folder-open highlight"></i> Các Dự Án Khác</h3>
+                    <div class="other-projects-list">
+                        <% otherProjects.forEach(other => { %>
+                            <a href="/project/<%= other.slug %>" class="other-project-item">
+                                <span class="other-badge"><%= other.category %></span>
+                                <h4><%= other.title %></h4>
+                            </a>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('../partials/footer') %>

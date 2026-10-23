@@ -1,0 +1,17 @@
+<%- include('../partials/header') %>
+
+<section class="section error-section">
+    <div class="section-container">
+        <div class="error-box">
+            <div class="error-code"><%= statusCode || 404 %></div>
+            <h1 class="error-title"><%= title || 'Đã Xảy Ra Lỗi' %></h1>
+            <p class="error-message"><%= message || 'Rất tiếc, đã có sự cố trong quá trình truy cập tài nguyên.' %></p>
+            <div class="error-actions">
+                <a href="/" class="btn btn-primary"><i class="fas fa-home"></i> Về Trang Chủ</a>
+                <a href="javascript:history.back()" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Quay Lại</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('../partials/footer') %>

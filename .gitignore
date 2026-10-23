@@ -1,0 +1,43 @@
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+
+# SSL / TLS Keys & Certificates
+certs/*.key
+certs/*.crt
+certs/*.pem
+certs/*.csr
+
+# Backups & Database Dumps
+backups/*.sql
+backups/*.gz
+backups/*.dump
+
+# Node modules & dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Application Runtime Logs
+logs/
+*.log
+app/logs/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python cache & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# Temporary data
+tmp/
+*.tmp

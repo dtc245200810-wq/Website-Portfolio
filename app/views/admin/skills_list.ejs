@@ -1,0 +1,104 @@
+<%- include('admin_header') %>
+
+<div class="grid-2col">
+    <!-- Skills List -->
+    <div class="card">
+        <div class="card-header">
+            <h3><i class="fas fa-microchip highlight"></i> Danh Sách Kỹ Năng Đang Hiển Thị</h3>
+        </div>
+
+        <% if (message) { %>
+            <div class="alert alert-success m-3">
+                <i class="fas fa-check-circle"></i> <%= message %>
+            </div>
+        <% } %>
+
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Kỹ Năng</th>
+                            <th>Danh Mục</th>
+                            <th>Thành Thạo</th>
+                            <th>Thứ Tự</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% skills.forEach(s => { %>
+                            <tr>
+                                <td>
+                                    <i class="<%= s.icon_class %> text-primary mr-1"></i>
+                                    <strong><%= s.name %></strong>
+                                </td>
+                                <td><span class="badge badge-secondary"><%= s.category %></span></td>
+                                <td>
+                                    <div class="progress-bar-bg small">
+                                        <div class="progress-bar-fill" style="width: <%= s.proficiency %>%;"></div>
+                                    </div>
+                                    <small><%= s.proficiency %>%</small>
+                                </td>
+                                <td><%= s.sort_order %></td>
+                                <td>
+                                    <form action="/admin/skills/<%= s.id %>/delete" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa kỹ năng này?');" style="display:inline;">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                        <button type="submit" class="btn-action delete" title="Xóa"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Skill Form -->
+    <div class="card">
+        <div class="card-header">
+            <h3><i class="fas fa-plus highlight"></i> Thêm Kỹ Năng Mới</h3>
+        </div>
+        <div class="card-body">
+            <form action="/admin/skills/new" method="POST" class="admin-form">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                <div class="form-group">
+                    <label for="name"><i class="fas fa-code"></i> Tên Kỹ Năng <span class="req">*</span></label>
+                    <input type="text" id="name" name="name" class="form-control" required placeholder="Ví dụ: Kubernetes, Redis, TypeScript...">
+                </div>
+
+                <div class="form-group">
+                    <label for="category"><i class="fas fa-folder"></i> Phân Nhóm <span class="req">*</span></label>
+                    <select id="category" name="category" class="form-control" required>
+                        <option value="Frontend">Frontend</option>
+                        <option value="Backend">Backend</option>
+                        <option value="DevOps & System" selected>DevOps & System</option>
+                        <option value="Database">Database</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="proficiency"><i class="fas fa-percent"></i> Mức Độ Thành Thạo (0 - 100%) <span class="req">*</span></label>
+                    <input type="number" id="proficiency" name="proficiency" min="10" max="100" class="form-control" value="85" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="icon_class"><i class="fas fa-icons"></i> FontAwesome Icon Class</label>
+                    <input type="text" id="icon_class" name="icon_class" class="form-control" value="fas fa-code" placeholder="fab fa-docker, fas fa-database...">
+                </div>
+
+                <div class="form-group">
+                    <label for="sort_order"><i class="fas fa-sort-numeric-down"></i> Thứ Tự Hiển Thị</label>
+                    <input type="number" id="sort_order" name="sort_order" class="form-control" value="10">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-plus"></i> Thêm Vào Portfolio
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('admin_footer') %>

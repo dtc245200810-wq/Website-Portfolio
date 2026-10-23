@@ -1,0 +1,326 @@
+<%- include('../partials/header') %>
+
+<!-- 1. Hero Section -->
+<section class="hero-section" id="hero">
+    <div class="hero-bg-glow"></div>
+    <div class="hero-container">
+        <div class="hero-content">
+            <div class="student-badge">
+                <i class="fas fa-shield-halved"></i> Đề 13: Website Portfolio Cá Nhân & Quản Trị Nội Dung
+            </div>
+            <h1 class="hero-title">
+                Xin chào, mình là <span class="gradient-text"><%= profile.full_name %></span>
+            </h1>
+            <p class="hero-subtitle">
+                <span class="typing-text"><%= profile.headline %></span>
+            </p>
+            <p class="hero-desc">
+                Sinh viên lớp <strong><%= profile.class_name %></strong> &bull; Mã sinh viên: <strong><%= profile.student_id %></strong><br>
+                <%= profile.university %>
+            </p>
+
+            <div class="hero-actions">
+                <a href="#projects" class="btn btn-primary"><i class="fas fa-rocket"></i> Khám phá dự án</a>
+                <a href="#contact" class="btn btn-outline"><i class="fas fa-paper-plane"></i> Liên hệ ngay</a>
+                <a href="<%= profile.github_url %>" target="_blank" class="btn btn-dark"><i class="fab fa-github"></i> GitHub</a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <span class="stat-num"><%= projects.length %>+</span>
+                    <span class="stat-label">Dự Án Hoàn Thành</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-num"><%= (skillsByCategory['Frontend'].length + skillsByCategory['Backend'].length + skillsByCategory['DevOps & System'].length + skillsByCategory['Database'].length) %>+</span>
+                    <span class="stat-label">Kỹ Năng Kỹ Thuật</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-num">100%</span>
+                    <span class="stat-label">Dockerized & Monitored</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-avatar-wrapper">
+            <div class="avatar-card">
+                <div class="avatar-img-box">
+                    <img src="<%= profile.avatar_url %>" alt="<%= profile.full_name %>" class="avatar-img" onerror="this.src='/images/avatar.png'">
+                </div>
+                <div class="avatar-floating-badge badge-1">
+                    <i class="fab fa-docker"></i> Docker Compose
+                </div>
+                <div class="avatar-floating-badge badge-2">
+                    <i class="fas fa-server"></i> Nginx HTTPS
+                </div>
+                <div class="avatar-floating-badge badge-3">
+                    <i class="fas fa-chart-line"></i> Prometheus & Loki
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. About Section -->
+<section class="section about-section" id="about">
+    <div class="section-container">
+        <div class="section-header">
+            <span class="section-tag"><i class="fas fa-user-tag"></i> Giới Thiệu Bản Thân</span>
+            <h2 class="section-title">Hồ Sơ Năng Lực & Mục Tiêu Nghề Nghiệp</h2>
+            <div class="title-divider"></div>
+        </div>
+
+        <div class="about-grid">
+            <div class="about-bio-card">
+                <h3><i class="fas fa-quote-left highlight"></i> Câu Chuyện Của Em</h3>
+                <p class="bio-text"><%= profile.bio %></p>
+                <div class="info-list">
+                    <div class="info-item">
+                        <i class="fas fa-id-card"></i>
+                        <span><strong>Mã sinh viên:</strong> <%= profile.student_id %></span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-users-rectangle"></i>
+                        <span><strong>Lớp học:</strong> <%= profile.class_name %></span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-chalkboard-user"></i>
+                        <span><strong>Giảng viên hướng dẫn:</strong> ThS. Lê Khánh Dương</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-location-dot"></i>
+                        <span><strong>Địa điểm:</strong> <%= profile.location %></span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <span><strong>Email liên hệ:</strong> <%= profile.email %></span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <span><strong>Điện thoại:</strong> <%= profile.phone %></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-architecture-card">
+                <h3><i class="fas fa-layer-group highlight"></i> Nền Tảng Hạ Tầng Triển Khai</h3>
+                <p>Website này được triển khai theo mô hình production đa container với kiến trúc bảo mật nhiều lớp:</p>
+                <ul class="arch-features">
+                    <li><i class="fas fa-check-circle"></i> <strong>Nginx Reverse Proxy:</strong> Chuyển hướng HTTP 8080 sang HTTPS 8443, cấp chứng chỉ RSA 3072 bit và bộ HTTP Security Headers.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Cơ sở dữ liệu MySQL 8.0:</strong> Lưu trữ bền vững 8 bảng dữ liệu trên Docker named volume, kết nối nội bộ qua mạng isolated.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Quản trị phpMyAdmin:</strong> Giao diện trực quan kết nối MySQL nội bộ, bind chặt vào 127.0.0.1:8081.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Giám sát Prometheus & Grafana:</strong> Thu thập metrics container, Nginx, MySQL và app với 5 mục tiêu UP.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Quản lý Log Loki & Promtail:</strong> Thu gom nhật ký JSON từ app và Nginx, truy vấn chuyên sâu với LogQL.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Bảo mật Hardening:</strong> Non-root UID 1000, read-only rootfs, cap_drop, least-privilege DB user.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 3. Projects Showcase -->
+<section class="section projects-section" id="projects">
+    <div class="section-container">
+        <div class="section-header">
+            <span class="section-tag"><i class="fas fa-laptop-code"></i> Sản Phẩm Thực Tế</span>
+            <h2 class="section-title">Danh Mục Các Dự Án Tiêu Biểu</h2>
+            <p class="section-desc">Các sản phẩm phần mềm và hệ thống do em tự nghiên cứu, phát triển và đóng gói triển khai.</p>
+            <div class="title-divider"></div>
+        </div>
+
+        <div class="projects-grid">
+            <% projects.forEach(project => { %>
+                <div class="project-card <%= project.featured ? 'featured' : '' %>">
+                    <div class="project-img-box">
+                        <img src="<%= project.image_url %>" alt="<%= project.title %>" onerror="this.src='/images/project-default.jpg'">
+                        <span class="project-category-badge"><%= project.category %></span>
+                    </div>
+
+                    <div class="project-body">
+                        <h3 class="project-title"><%= project.title %></h3>
+                        <p class="project-desc"><%= project.description %></p>
+
+                        <div class="project-tech-tags">
+                            <% project.technologies.split(',').forEach(tech => { %>
+                                <span class="tech-tag"><%= tech.trim() %></span>
+                            <% }) %>
+                        </div>
+
+                        <div class="project-footer">
+                            <a href="/project/<%= project.slug %>" class="btn btn-sm btn-outline"><i class="fas fa-info-circle"></i> Chi tiết</a>
+                            <% if (project.github_url) { %>
+                                <a href="<%= project.github_url %>" target="_blank" class="btn btn-sm btn-dark"><i class="fab fa-github"></i> Code</a>
+                            <% } %>
+                            <% if (project.demo_url) { %>
+                                <a href="<%= project.demo_url %>" target="_blank" class="btn btn-sm btn-primary"><i class="fas fa-arrow-up-right-from-square"></i> Demo</a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</section>
+
+<!-- 4. Skills Section -->
+<section class="section skills-section" id="skills">
+    <div class="section-container">
+        <div class="section-header">
+            <span class="section-tag"><i class="fas fa-microchip"></i> Năng Lực Kỹ Thuật</span>
+            <h2 class="section-title">Bộ Kỹ Năng Chuyên Môn</h2>
+            <p class="section-desc">Phân loại theo Frontend, Backend, DevOps/System và Database.</p>
+            <div class="title-divider"></div>
+        </div>
+
+        <div class="skills-categories-grid">
+            <% const categories = ['Frontend', 'Backend', 'DevOps & System', 'Database']; %>
+            <% categories.forEach(cat => { %>
+                <div class="skill-category-card">
+                    <div class="category-header">
+                        <% if (cat === 'Frontend') { %> <i class="fab fa-html5 cat-icon"></i>
+                        <% } else if (cat === 'Backend') { %> <i class="fas fa-server cat-icon"></i>
+                        <% } else if (cat === 'DevOps & System') { %> <i class="fab fa-docker cat-icon"></i>
+                        <% } else { %> <i class="fas fa-database cat-icon"></i> <% } %>
+                        <h3><%= cat %></h3>
+                    </div>
+
+                    <div class="skills-list">
+                        <% (skillsByCategory[cat] || []).forEach(skill => { %>
+                            <div class="skill-item">
+                                <div class="skill-info">
+                                    <span class="skill-name"><i class="<%= skill.icon_class %>"></i> <%= skill.name %></span>
+                                    <span class="skill-pct"><%= skill.proficiency %>%</span>
+                                </div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" style="width: <%= skill.proficiency %>%;"></div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</section>
+
+<!-- 5. Experience & Education Timeline -->
+<section class="section exp-section" id="experience">
+    <div class="section-container">
+        <div class="section-header">
+            <span class="section-tag"><i class="fas fa-graduation-cap"></i> Quá Trình Học Tập</span>
+            <h2 class="section-title">Học Vấn & Hoạt Động Chuyên Môn</h2>
+            <div class="title-divider"></div>
+        </div>
+
+        <div class="timeline">
+            <% experiences.forEach((exp, idx) => { %>
+                <div class="timeline-item <%= idx % 2 === 0 ? 'left' : 'right' %>">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date"><i class="far fa-calendar-alt"></i> <%= exp.start_date %> - <%= exp.end_date %></span>
+                        <h3 class="timeline-title"><%= exp.title %></h3>
+                        <h4 class="timeline-org"><i class="fas fa-building"></i> <%= exp.organization %></h4>
+                        <p class="timeline-desc"><%= exp.description %></p>
+                        <span class="role-badge"><%= exp.role_type %></span>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</section>
+
+<!-- 6. Contact Section -->
+<section class="section contact-section" id="contact">
+    <div class="section-container">
+        <div class="section-header">
+            <span class="section-tag"><i class="fas fa-paper-plane"></i> Kết Nối & Trao Đổi</span>
+            <h2 class="section-title">Gửi Tin Nhắn Cho Em</h2>
+            <p class="section-desc">Mọi thông tin liên hệ sẽ được lưu trữ an toàn trong MySQL và ghi nhật ký kiểm toán hệ thống.</p>
+            <div class="title-divider"></div>
+        </div>
+
+        <% if (contactSuccess) { %>
+            <div class="alert alert-success">
+                <i class="fas fa-circle-check"></i> Cảm ơn bạn! Tin nhắn của bạn đã được gửi thành công và lưu vào cơ sở dữ liệu hệ thống.
+            </div>
+        <% } %>
+
+        <% if (contactError) { %>
+            <div class="alert alert-danger">
+                <i class="fas fa-circle-exclamation"></i> <%= contactError %>
+            </div>
+        <% } %>
+
+        <div class="contact-grid">
+            <div class="contact-info-card">
+                <h3>Thông Tin Liên Hệ Trực Tiếp</h3>
+                <p>Quý thầy cô và nhà tuyển dụng có thể liên hệ trực tiếp với em qua các kênh sau:</p>
+
+                <div class="contact-method">
+                    <div class="method-icon"><i class="fas fa-envelope"></i></div>
+                    <div>
+                        <h4>Email Học Tập</h4>
+                        <a href="mailto:<%= profile.email %>"><%= profile.email %></a>
+                    </div>
+                </div>
+
+                <div class="contact-method">
+                    <div class="method-icon"><i class="fas fa-phone"></i></div>
+                    <div>
+                        <h4>Số Điện Thoại</h4>
+                        <span><%= profile.phone %></span>
+                    </div>
+                </div>
+
+                <div class="contact-method">
+                    <div class="method-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <h4>Trường Đại Học</h4>
+                        <span><%= profile.university %></span>
+                    </div>
+                </div>
+
+                <div class="contact-method">
+                    <div class="method-icon"><i class="fab fa-github"></i></div>
+                    <div>
+                        <h4>Mã Nguồn Đề Tài</h4>
+                        <a href="<%= profile.github_url %>" target="_blank">github.com/dtc245200810-wq</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form-card">
+                <form action="/contact" method="POST" class="contact-form">
+                    <!-- CSRF Token -->
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sender_name"><i class="fas fa-user"></i> Họ và tên của bạn <span class="req">*</span></label>
+                            <input type="text" id="sender_name" name="sender_name" required placeholder="Ví dụ: Nguyễn Văn A" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="sender_email"><i class="fas fa-envelope"></i> Địa chỉ email <span class="req">*</span></label>
+                            <input type="email" id="sender_email" name="sender_email" required placeholder="name@example.com" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject"><i class="fas fa-heading"></i> Tiêu đề tin nhắn <span class="req">*</span></label>
+                        <input type="text" id="subject" name="subject" required placeholder="Ví dụ: Trao đổi về đề tài Website Portfolio" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message"><i class="fas fa-comment-dots"></i> Nội dung tin nhắn <span class="req">*</span></label>
+                        <textarea id="message" name="message" rows="5" required placeholder="Nhập nội dung bạn muốn gửi..." class="form-control"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-paper-plane"></i> Gửi Tin Nhắn Ngay
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('../partials/footer') %>

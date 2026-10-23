@@ -1,0 +1,78 @@
+<%- include('admin_header') %>
+
+<div class="card max-w-800">
+    <div class="card-header">
+        <h3><i class="fas <%= project ? 'fa-pen-to-square' : 'fa-plus' %> highlight"></i> <%= project ? 'Chỉnh Sửa Dự Án' : 'Thêm Dự Án Mới' %></h3>
+        <a href="/admin/projects" class="btn btn-sm btn-outline"><i class="fas fa-arrow-left"></i> Quay lại danh sách</a>
+    </div>
+
+    <div class="card-body">
+        <form action="<%= project ? '/admin/projects/' + project.id + '/edit' : '/admin/projects/new' %>" method="POST" class="admin-form">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+            <div class="form-group">
+                <label for="title"><i class="fas fa-heading"></i> Tên Dự Án <span class="req">*</span></label>
+                <input type="text" id="title" name="title" class="form-control" required value="<%= project ? project.title : '' %>" placeholder="Ví dụ: Hệ Thống Quản Lý Đặt Lịch Khám Bệnh">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="slug"><i class="fas fa-link"></i> Đường Dẫn Tĩnh (Slug) <span class="req">*</span></label>
+                    <input type="text" id="slug" name="slug" class="form-control" required value="<%= project ? project.slug : '' %>" placeholder="vi-du-du-an-moi">
+                </div>
+                <div class="form-group">
+                    <label for="category"><i class="fas fa-folder"></i> Danh Mục <span class="req">*</span></label>
+                    <input type="text" id="category" name="category" class="form-control" required value="<%= project ? project.category : 'Fullstack Web' %>" placeholder="Fullstack Web, DevOps, IoT...">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="technologies"><i class="fas fa-tags"></i> Công Nghệ Sử Dụng (ngăn cách bằng dấu phẩy) <span class="req">*</span></label>
+                <input type="text" id="technologies" name="technologies" class="form-control" required value="<%= project ? project.technologies : 'Node.js, Express, MySQL, Docker, Nginx' %>" placeholder="Node.js, MySQL, Docker...">
+            </div>
+
+            <div class="form-group">
+                <label for="description"><i class="fas fa-align-left"></i> Mô Tả Ngắn Gọn <span class="req">*</span></label>
+                <textarea id="description" name="description" rows="2" class="form-control" required placeholder="Mô tả tóm tắt dự án trong 1-2 câu..."><%= project ? project.description : '' %></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="full_content"><i class="fas fa-file-lines"></i> Nội Dung Chi Tiết & Kiến Trúc</label>
+                <textarea id="full_content" name="full_content" rows="5" class="form-control" placeholder="Mô tả chi tiết giải pháp, kiến trúc container, luồng dữ liệu, thử nghiệm..."><%= project ? project.full_content : '' %></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="demo_url"><i class="fas fa-globe"></i> Link Demo Trực Tuyến</label>
+                    <input type="url" id="demo_url" name="demo_url" class="form-control" value="<%= project ? project.demo_url : '' %>" placeholder="https://demo.example.com">
+                </div>
+                <div class="form-group">
+                    <label for="github_url"><i class="fab fa-github"></i> Link Mã Nguồn GitHub</label>
+                    <input type="url" id="github_url" name="github_url" class="form-control" value="<%= project ? project.github_url : '' %>" placeholder="https://github.com/dtc245200810-wq/...">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="sort_order"><i class="fas fa-sort-numeric-down"></i> Thứ Tự Ưu Tiên</label>
+                    <input type="number" id="sort_order" name="sort_order" class="form-control" value="<%= project ? project.sort_order : 0 %>">
+                </div>
+                <div class="form-group checkbox-group">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" name="featured" value="1" <%= project && project.featured ? 'checked' : '' %>>
+                        <span><i class="fas fa-star text-warning"></i> Đánh dấu là dự án nổi bật (Featured)</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> <%= project ? 'Cập Nhật Dự Án' : 'Lưu Dự Án Mới' %>
+                </button>
+                <a href="/admin/projects" class="btn btn-outline">Hủy bỏ</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('admin_footer') %>

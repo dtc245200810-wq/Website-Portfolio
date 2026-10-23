@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title || 'Quản Trị Portfolio' %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-brand">
+                <i class="fas fa-terminal"></i>
+                <span>Portfolio Admin</span>
+            </div>
+            <div class="sidebar-user">
+                <i class="fas fa-circle-user user-icon"></i>
+                <div class="user-meta">
+                    <span class="user-name"><%= user ? user.fullName : 'Tô Vũ Đạt' %></span>
+                    <span class="user-role"><i class="fas fa-shield"></i> <%= user ? user.role : 'admin' %> (CNTT K23I)</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/admin/dashboard" class="nav-item <%= currentPath === '/admin/dashboard' ? 'active' : '' %>">
+                    <i class="fas fa-gauge-high"></i> Tổng Quan
+                </a>
+                <a href="/admin/projects" class="nav-item <%= currentPath.startsWith('/admin/projects') ? 'active' : '' %>">
+                    <i class="fas fa-laptop-code"></i> Quản Lý Dự Án
+                </a>
+                <a href="/admin/skills" class="nav-item <%= currentPath.startsWith('/admin/skills') ? 'active' : '' %>">
+                    <i class="fas fa-microchip"></i> Quản Lý Kỹ Năng
+                </a>
+                <a href="/admin/contacts" class="nav-item <%= currentPath.startsWith('/admin/contacts') ? 'active' : '' %>">
+                    <i class="fas fa-envelope"></i> Tin Nhắn Liên Hệ
+                </a>
+                <a href="/admin/profile" class="nav-item <%= currentPath.startsWith('/admin/profile') ? 'active' : '' %>">
+                    <i class="fas fa-id-card"></i> Hồ Sơ Cá Nhân
+                </a>
+                <a href="/admin/audit" class="nav-item <%= currentPath.startsWith('/admin/audit') ? 'active' : '' %>">
+                    <i class="fas fa-clipboard-list"></i> Nhật Ký Kiểm Toán
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-section-title">Hạ Tầng Quản Trị</div>
+                <a href="http://localhost:8081" target="_blank" class="nav-item external">
+                    <i class="fas fa-database"></i> phpMyAdmin (:8081)
+                </a>
+                <a href="http://localhost:3002" target="_blank" class="nav-item external">
+                    <i class="fas fa-chart-line"></i> Grafana (:3002)
+                </a>
+                <a href="http://localhost:9090/targets" target="_blank" class="nav-item external">
+                    <i class="fas fa-bullseye"></i> Prometheus Targets
+                </a>
+                <a href="/" target="_blank" class="nav-item external">
+                    <i class="fas fa-globe"></i> Xem Trang Portfolio
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <form action="/admin/logout" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <button type="submit" class="logout-btn">
+                        <i class="fas fa-arrow-right-from-bracket"></i> Đăng Xuất
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <div class="topbar-left">
+                    <h1 class="page-title"><%= title %></h1>
+                </div>
+                <div class="topbar-right">
+                    <span class="system-badge"><i class="fas fa-shield-halved"></i> Đề 13 - MySQL + phpMyAdmin</span>
+                    <a href="/" target="_blank" class="btn-view-site"><i class="fas fa-arrow-up-right-from-square"></i> Trang Web</a>
+                </div>
+            </header>
+            <div class="admin-content-inner">

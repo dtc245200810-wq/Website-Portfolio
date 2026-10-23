@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title || 'Tô Vũ Đạt | Portfolio Cá Nhân' %></title>
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Main Style -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/" class="brand-logo">
+                <span class="logo-icon"><i class="fas fa-terminal"></i></span>
+                <span class="logo-text">Tô Vũ Đạt<span class="highlight">.dev</span></span>
+            </a>
+            
+            <nav class="nav-menu" id="navMenu">
+                <a href="/#about" class="nav-link"><i class="fas fa-user-circle"></i> Giới thiệu</a>
+                <a href="/#projects" class="nav-link"><i class="fas fa-laptop-code"></i> Dự án</a>
+                <a href="/#skills" class="nav-link"><i class="fas fa-microchip"></i> Kỹ năng</a>
+                <a href="/#experience" class="nav-link"><i class="fas fa-briefcase"></i> Kinh nghiệm</a>
+                <a href="/#contact" class="nav-link"><i class="fas fa-envelope"></i> Liên hệ</a>
+                <% if (locals.currentUser) { %>
+                    <a href="/admin/dashboard" class="nav-btn admin-btn"><i class="fas fa-gauge-high"></i> Admin (<%= currentUser.username %>)</a>
+                <% } else { %>
+                    <a href="/admin/login" class="nav-btn"><i class="fas fa-lock"></i> Đăng nhập</a>
+                <% } %>
+            </nav>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+    <main class="main-content">

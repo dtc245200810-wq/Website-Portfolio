@@ -1,0 +1,210 @@
+<%- include('admin_header') %>
+
+<!-- Statistics Cards -->
+<div class="stats-grid">
+    <div class="stat-box primary">
+        <div class="stat-icon"><i class="fas fa-laptop-code"></i></div>
+        <div class="stat-details">
+            <span class="stat-value"><%= stats.projects %></span>
+            <span class="stat-title">Tổng Số Dự Án</span>
+        </div>
+        <a href="/admin/projects" class="stat-link">Quản lý <i class="fas fa-arrow-right"></i></a>
+    </div>
+
+    <div class="stat-box success">
+        <div class="stat-icon"><i class="fas fa-microchip"></i></div>
+        <div class="stat-details">
+            <span class="stat-value"><%= stats.skills %></span>
+            <span class="stat-title">Kỹ Năng Kỹ Thuật</span>
+        </div>
+        <a href="/admin/skills" class="stat-link">Quản lý <i class="fas fa-arrow-right"></i></a>
+    </div>
+
+    <div class="stat-box warning">
+        <div class="stat-icon"><i class="fas fa-envelope"></i></div>
+        <div class="stat-details">
+            <span class="stat-value"><%= stats.contacts %></span>
+            <span class="stat-title">Tin Nhắn Liên Hệ (<%= stats.unreadContacts %> chưa đọc)</span>
+        </div>
+        <a href="/admin/contacts" class="stat-link">Hộp thư <i class="fas fa-arrow-right"></i></a>
+    </div>
+
+    <div class="stat-box info">
+        <div class="stat-icon"><i class="fas fa-clipboard-check"></i></div>
+        <div class="stat-details">
+            <span class="stat-value"><%= stats.audits %></span>
+            <span class="stat-title">Nhật Ký Kiểm Toán</span>
+        </div>
+        <a href="/admin/audit" class="stat-link">Truy vết <i class="fas fa-arrow-right"></i></a>
+    </div>
+</div>
+
+<!-- System Health & Environment -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h3><i class="fas fa-heartbeat highlight"></i> Trạng Thái Hệ Thống & Cơ Sở Dữ Liệu</h3>
+        <span class="badge <%= dbHealth.status === 'CONNECTED' ? 'badge-success' : 'badge-danger' %>">
+            <i class="fas fa-circle-dot"></i> MySQL: <%= dbHealth.status %>
+        </span>
+    </div>
+    <div class="card-body">
+        <div class="system-status-grid">
+            <div class="status-item">
+                <span class="status-label">Cơ sở dữ liệu:</span>
+                <span class="status-val"><strong><%= dbHealth.database %></strong> (MySQL 8.0)</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Độ trễ kết nối DB:</span>
+                <span class="status-val"><%= dbHealth.latencyMs || 1 %> ms</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Thời gian Uptime:</span>
+                <span class="status-val"><%= Math.floor(uptimeSeconds / 60) %> phút (<%= uptimeSeconds %> giây)</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Tài khoản ứng dụng:</span>
+                <span class="status-val"><code>portfolio_app</code> (Quyền tối thiểu: CRUD)</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Công cụ quản trị DB:</span>
+                <span class="status-val"><a href="http://localhost:8081" target="_blank" class="text-link"><i class="fas fa-external-link-alt"></i> phpMyAdmin tại cổng :8081</a></span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Giám sát & Logs:</span>
+                <span class="status-val"><a href="http://localhost:3002" target="_blank" class="text-link"><i class="fas fa-chart-line"></i> Grafana (:3002)</a> &bull; <a href="http://localhost:9090" target="_blank" class="text-link">Prometheus (:9090)</a></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid-2col">
+    <!-- Recent Projects -->
+    <div class="card">
+        <div class="card-header">
+            <h3><i class="fas fa-folder-open highlight"></i> Dự Án Gần Đây</h3>
+            <a href="/admin/projects/new" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Thêm mới</a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Tên Dự Án</th>
+                            <th>Danh Mục</th>
+                            <th>Nổi Bật</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% recentProjects.forEach(p => { %>
+                            <tr>
+                                <td><strong><%= p.title %></strong></td>
+                                <td><span class="badge badge-secondary"><%= p.category %></span></td>
+                                <td>
+                                    <% if (p.featured) { %>
+                                        <span class="badge badge-success"><i class="fas fa-check"></i> Có</span>
+                                    <% } else { %>
+                                        <span class="badge badge-dark">Không</span>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <a href="/admin/projects/<%= p.id %>/edit" class="btn-action edit" title="Sửa"><i class="fas fa-pen"></i></a>
+                                    <a href="/project/<%= p.slug %>" target="_blank" class="btn-action view" title="Xem"><i class="fas fa-eye"></i></a>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Contacts -->
+    <div class="card">
+        <div class="card-header">
+            <h3><i class="fas fa-inbox highlight"></i> Tin Nhắn Mới Nhận</h3>
+            <a href="/admin/contacts" class="btn btn-sm btn-outline"><i class="fas fa-list"></i> Xem tất cả</a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Người Gửi</th>
+                            <th>Tiêu Đề</th>
+                            <th>Trạng Thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (recentContacts.length === 0) { %>
+                            <tr><td colspan="3" class="text-center text-muted">Chưa có tin nhắn nào.</td></tr>
+                        <% } else { %>
+                            <% recentContacts.forEach(c => { %>
+                                <tr>
+                                    <td>
+                                        <strong><%= c.sender_name %></strong><br>
+                                        <small class="text-muted"><%= c.sender_email %></small>
+                                    </td>
+                                    <td><%= c.subject %></td>
+                                    <td>
+                                        <% if (c.is_read) { %>
+                                            <span class="badge badge-secondary">Đã đọc</span>
+                                        <% } else { %>
+                                            <span class="badge badge-danger">Chưa đọc</span>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Audit Logs -->
+<div class="card mt-4">
+    <div class="card-header">
+        <h3><i class="fas fa-shield-halved highlight"></i> Nhật Ký Kiểm Toán An Toàn & Vận Hành</h3>
+        <a href="/admin/audit" class="btn btn-sm btn-outline"><i class="fas fa-list"></i> Toàn bộ nhật ký</a>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Thời Điểm</th>
+                        <th>Tài Khoản</th>
+                        <th>Hành Động</th>
+                        <th>Đối Tượng</th>
+                        <th>Chi Tiết</th>
+                        <th>Địa Chỉ IP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% recentAudits.forEach(a => { %>
+                        <tr>
+                            <td><small class="text-muted"><%= new Date(a.created_at).toLocaleString('vi-VN') %></small></td>
+                            <td><span class="user-pill"><i class="fas fa-user"></i> <%= a.username %></span></td>
+                            <td>
+                                <% if (a.action.includes('SUCCESS') || a.action.includes('CREATE')) { %>
+                                    <span class="badge badge-success"><%= a.action %></span>
+                                <% } else if (a.action.includes('FAILED')) { %>
+                                    <span class="badge badge-danger"><%= a.action %></span>
+                                <% } else { %>
+                                    <span class="badge badge-info"><%= a.action %></span>
+                                <% } %>
+                            </td>
+                            <td><code><%= a.entity_type %> <%= a.entity_id ? '#' + a.entity_id : '' %></code></td>
+                            <td><%= a.details %></td>
+                            <td><code><%= a.ip_address %></code></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%- include('admin_footer') %>

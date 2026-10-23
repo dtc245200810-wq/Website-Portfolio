@@ -1,0 +1,84 @@
+<%- include('admin_header') %>
+
+<div class="card max-w-800">
+    <div class="card-header">
+        <h3><i class="fas fa-id-card highlight"></i> Cập Nhật Hồ Sơ Cá Nhân (Tô Vũ Đạt)</h3>
+    </div>
+
+    <% if (success) { %>
+        <div class="alert alert-success m-3">
+            <i class="fas fa-check-circle"></i> Cập nhật hồ sơ cá nhân thành công! Dữ liệu đã được lưu vào MySQL.
+        </div>
+    <% } %>
+
+    <div class="card-body">
+        <form action="/admin/profile" method="POST" class="admin-form">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="full_name"><i class="fas fa-user"></i> Họ và Tên <span class="req">*</span></label>
+                    <input type="text" id="full_name" name="full_name" class="form-control" required value="<%= profile.full_name %>">
+                </div>
+                <div class="form-group">
+                    <label for="student_id"><i class="fas fa-id-badge"></i> Mã Sinh Viên <span class="req">*</span></label>
+                    <input type="text" id="student_id" name="student_id" class="form-control" required value="<%= profile.student_id %>">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="class_name"><i class="fas fa-users"></i> Lớp Học <span class="req">*</span></label>
+                    <input type="text" id="class_name" name="class_name" class="form-control" required value="<%= profile.class_name %>">
+                </div>
+                <div class="form-group">
+                    <label for="university"><i class="fas fa-graduation-cap"></i> Trường Đại Học <span class="req">*</span></label>
+                    <input type="text" id="university" name="university" class="form-control" required value="<%= profile.university %>">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="headline"><i class="fas fa-tag"></i> Tiêu Đề / Định Hướng Nghề Nghiệp <span class="req">*</span></label>
+                <input type="text" id="headline" name="headline" class="form-control" required value="<%= profile.headline %>">
+            </div>
+
+            <div class="form-group">
+                <label for="bio"><i class="fas fa-align-left"></i> Tiểu Sử / Giới Thiệu Bản Thân <span class="req">*</span></label>
+                <textarea id="bio" name="bio" rows="4" class="form-control" required><%= profile.bio %></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email Liên Hệ <span class="req">*</span></label>
+                    <input type="email" id="email" name="email" class="form-control" required value="<%= profile.email %>">
+                </div>
+                <div class="form-group">
+                    <label for="phone"><i class="fas fa-phone"></i> Số Điện Thoại</label>
+                    <input type="text" id="phone" name="phone" class="form-control" value="<%= profile.phone %>">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="location"><i class="fas fa-map-marker-alt"></i> Địa Điểm</label>
+                    <input type="text" id="location" name="location" class="form-control" value="<%= profile.location %>">
+                </div>
+                <div class="form-group">
+                    <label for="github_url"><i class="fab fa-github"></i> Đường Dẫn GitHub</label>
+                    <input type="url" id="github_url" name="github_url" class="form-control" value="<%= profile.github_url %>">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="linkedin_url"><i class="fab fa-linkedin"></i> Đường Dẫn LinkedIn</label>
+                <input type="url" id="linkedin_url" name="linkedin_url" class="form-control" value="<%= profile.linkedin_url %>">
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Lưu Thay Đổi Hồ Sơ
+            </button>
+        </form>
+    </div>
+</div>
+
+<%- include('admin_footer') %>
