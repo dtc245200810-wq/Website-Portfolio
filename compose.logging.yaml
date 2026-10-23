@@ -1,0 +1,40 @@
+# ========================================================
+# compose.logging.yaml: Loki & Promtail Centralized Logging
+# Topic 13: Website Portfolio / Personal Introduction
+# Student: To Vu Dat (DTC245200810 - CNTT K23I)
+# ========================================================
+
+services:
+  # 1. Loki Centralized Log Storage
+  loki:
+    image: grafana/loki:3.4.2
+    container_name: portfolio-loki
+    restart: unless-stopped
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./logging/loki/loki-config.yaml:/etc/loki/local-config.yaml:ro
+      - portfolio_loki_data:/loki
+    networks:
+      - portfolio_monitoring_network
+
+  # 2. Promtail Log Harvester & Forwarder
+  promtail:
+    image: grafana/promtail:3.4.2
+    container_name: portfolio-promtail
+    restart: unless-stopped
+    command: -config.file=/etc/promtail/config.yml
+    volumes:
+      - ./logging/promtail/promtail-config.yaml:/etc/promtail/config.yml:ro
+      - portfolio_app_logs:/logs/app:ro
+      - portfolio_nginx_logs:/logs/nginx:ro
+      - portfolio_promtail_positions:/positions
+    networks:
+      - portfolio_monitoring_network
+    depends_on:
+      - loki
+
+volumes:
+  portfolio_loki_data:
+    name: portfolio_loki_data
+  portfolio_promtail_positions:
+    name: portfolio_promtail_positions
