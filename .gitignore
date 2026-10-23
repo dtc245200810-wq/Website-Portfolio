@@ -41,3 +41,6 @@ ENV/
 # Temporary data
 tmp/
 *.tmp
+
+# Sample / Reference template report
+Bao_cao_De14_*.docx
