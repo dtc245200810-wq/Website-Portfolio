@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: "Portfolio Dashboards"
+    orgId: 1
+    folder: "Đề 13 - Website Portfolio"
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards
