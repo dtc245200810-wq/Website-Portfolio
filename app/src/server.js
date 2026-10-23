@@ -39,29 +39,33 @@ app.use(express.json({ limit: '2mb' }));
 // Prometheus metrics middleware
 app.use(metricsMiddleware);
 
-// Session store in MySQL
+// Session store in MySQL (or MemoryStore when standalone)
 let sessionStore;
-try {
-    sessionStore = new MySQLStore({
-        clearExpired: true,
-        checkExpirationInterval: 900000, // 15 mins
-        expiration: 86400000, // 24 hours
-        createDatabaseTable: false,
-        schema: {
-            tableName: 'sessions',
-            columnNames: {
-                session_id: 'session_id',
-                expires: 'expires',
-                data: 'data'
+if (process.env.USE_MEMORY_SESSION === 'true') {
+    logger.info('Using in-memory session store for standalone execution');
+} else {
+    try {
+        sessionStore = new MySQLStore({
+            clearExpired: true,
+            checkExpirationInterval: 900000, // 15 mins
+            expiration: 86400000, // 24 hours
+            createDatabaseTable: false,
+            schema: {
+                tableName: 'sessions',
+                columnNames: {
+                    session_id: 'session_id',
+                    expires: 'expires',
+                    data: 'data'
+                }
             }
-        }
-    }, db.getPool());
+        }, db.getPool());
 
-    sessionStore.on('error', (err) => {
-        // Handled silently when MySQL is temporarily offline
-    });
-} catch (e) {
-    logger.warn('Failed to initialize MySQL session store, falling back to memory store', { error: e.message });
+        sessionStore.on('error', (err) => {
+            // Handled silently when MySQL is temporarily offline
+        });
+    } catch (e) {
+        logger.warn('Failed to initialize MySQL session store, falling back to memory store', { error: e.message });
+    }
 }
 
 app.use(session({
